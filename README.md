@@ -6,7 +6,7 @@ By default, saving originals locally arranges the photos into YYYY/YYYY-MM-DD fo
 
 # How to use
 
-![LRCC Settings](images/settings.png "LRCC Settings")
+![LRCC Settings](images/settings.webp "LRCC Settings")
 
 1. Store a copy of your originals locally (see above)
 2. Wait for all of the photos to be downloaded
