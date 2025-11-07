@@ -28,6 +28,14 @@ describe("parseAnnotationBlob", () => {
     });
   });
 
+  it("reads annotation information from RAF with extra characters", () => {
+    expect(parseFile("annotations/imageRaf2.bin")).toEqual({
+      imagePath: "2025/2025-04-01/DSCF6671.RAF",
+      xmpLocation:
+        "/Users/me/Pictures/Lightroom Library.lrlibrary/e1f5d246551243708c4fe56d8cc27afe/settings/f11b693156a9a9f13dda6f300b48332ee37b8bbfa8728198a144c3164f2d27ab",
+    });
+  });
+
   it("reads annotation information from image with weird separator", () => {
     expect(parseFile("annotations/imageWeird.bin")).toEqual({
       imagePath:

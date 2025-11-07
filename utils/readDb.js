@@ -105,7 +105,7 @@ async function readDb(dbPath) {
     }
   });
 
-  const result = {};
+  const result = [];
   const xmps = {};
   function buildPaths(albums, parentPath = "") {
     albums.forEach((album) => {
@@ -117,7 +117,10 @@ async function readDb(dbPath) {
             xmps[asset.imagePath] = asset.xmpLocation;
           }
         }
-        result[fullPath] = album.assets.map((asset) => asset.imagePath);
+        result.push({
+          album: fullPath,
+          photos: album.assets.map((asset) => asset.imagePath),
+        });
       }
       if (album.children.length > 0) {
         buildPaths(album.children.sort(sortByName), fullPath);
@@ -137,7 +140,17 @@ async function readDb(dbPath) {
     }
     xmpsSeen[xmps[file]] = true;
   }
-  return { albums: result };
+
+  for (const album of result) {
+    album.xmps = {};
+    for (const photo of album.photos) {
+      if (xmps[photo]) {
+        album.xmps[photo] = xmps[photo];
+      }
+    }
+  }
+
+  return result;
 }
 
 module.exports = { readDb };

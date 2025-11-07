@@ -10,11 +10,11 @@ const parseAnnotationBlob = (string) => {
     );
   const record = {};
   for (const part of parts) {
-    const xmpMatch = part.match(/(\/.*\/settings\/.*)/);
+    const xmpMatch = part.match(/(\/.*\/settings\/[A-z0-9]+)/);
     if (xmpMatch) {
       record.xmpLocation = xmpMatch[1];
     }
-    const imageMatch = part.match(/\/.*\/originals\/(.*)/);
+    const imageMatch = part.match(/\/.*\/originals\/(.+)/);
     if (imageMatch) {
       record.imagePath = imageMatch[1];
     }
