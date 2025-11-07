@@ -1,0 +1,16 @@
+{
+  "name": "lrcc-parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Shah Kashani",
+  "license": "MIT",
+  "description": "A very, VERY janky Lightroom parser that gives you a lists of files while attempting to maintain the Lightroom album structure",
+  "dependencies": {
+    "jest": "^30.2.0",
+    "lodash": "^4.17.21",
+    "sqlite3": "^5.1.7"
+  }
+}
