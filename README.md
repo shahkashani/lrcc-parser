@@ -16,10 +16,10 @@ npm install lrcc-parser
 ```
 
 ```javascript
-const { parseLibrary } = require("lrcc-parser");
+const { getAlbums } = require("lrcc-parser");
 
 (async () => {
-  const { albums } = await parseLibrary(
+  const albums = await getAlbums(
     "/Users/me/Pictures/Lightroom Library.lrlibrary/somelonghash/Managed Catalog.mcat"
   );
   console.log(albums);

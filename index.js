@@ -1,3 +1,3 @@
-const { readDb } = require("./utils/readDb.js");
-const parseLibrary = (dbPath) => readDb(dbPath);
-module.exports = { parseLibrary };
+const getAlbums = require("./utils/getAlbums.js");
+const getPhotoCounts = require("./utils/getPhotoCounts.js");
+module.exports = { getAlbums, getPhotoCounts };

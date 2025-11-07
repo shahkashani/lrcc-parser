@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
-const { parseAlbumBlob } = require("./parseAlbumBlob");
-const { parseAnnotationBlob } = require("./parseAnnotationBlob");
+const { parseAlbumBlob } = require("../parsers/parseAlbumBlob");
+const { parseAnnotationBlob } = require("../parsers/parseAnnotationBlob");
 
 const sanitizePathPart = (part) => (part || "").replace(/[\/\\]/g, "").trim();
 const sortByName = (a, b) => a.name.localeCompare(b.name);
@@ -56,7 +56,7 @@ async function readDb(dbPath) {
   });
 
   const assetRows = await dbEachAsync(`
-    SELECT d.fullDocId, r.content, d.annotation, d.deleted
+    SELECT d.fullDocId, d.annotation, d.deleted
     FROM docs d
     JOIN revs r ON d.winningRevSequence = r.sequence
     WHERE d.type = 'asset'
@@ -153,4 +153,4 @@ async function readDb(dbPath) {
   return result;
 }
 
-module.exports = { readDb };
+module.exports = readDb;
