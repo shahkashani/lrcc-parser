@@ -32,10 +32,17 @@ You should get something like:
 [
   {
     "album": "1999/1999-07-01 Oldies",
-    "photos": ["1999/1999-07-01/1.jpg", "1999/1999-07-01/2.jpg"],
-    "xmps": {
-      "1999/1999-07-01/1.jpg": "/Users/me/Pictures/Lightroom Library.lrlibrary/somelonghash/settings/someotherhash.xmp"
-    }
+    "photos": [
+      {
+        "path": "1999/1999-07-01/1.jpg",
+        "captureDate": "1999-07-01T19:00:00",
+        "xmp": "/Users/me/Pictures/Lightroom Library.lrlibrary/somelonghash/settings/someotherhash.xmp"
+      },
+      {
+        "path": "1999/1999-07-01/2.jpg",
+        "captureDate": "1999-07-01T19:00:01"
+      }
+    ]
   }
 ]
 ```

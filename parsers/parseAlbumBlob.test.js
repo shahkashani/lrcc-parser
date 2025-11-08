@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const { parseAlbumBlob } = require("../utils/parseAlbumBlob");
+const { parseAlbumBlob } = require("./parseAlbumBlob");
 
 const getFile = (file) =>
-  fs.readFileSync(path.join(__dirname, `./mocks/${file}`)).toString("utf8");
+  fs.readFileSync(path.join(__dirname, `../mocks/${file}`)).toString("utf8");
 
 const parseFile = (file) => parseAlbumBlob(getFile(file));
 

@@ -1,6 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
 const { parseAlbumBlob } = require("../parsers/parseAlbumBlob");
 const { parseAnnotationBlob } = require("../parsers/parseAnnotationBlob");
+const { parseImageBlob } = require("../parsers/parseImageBlob");
 
 const sanitizePathPart = (part) => (part || "").replace(/[\/\\]/g, "").trim();
 const sortByName = (a, b) => a.name.localeCompare(b.name);
@@ -56,7 +57,7 @@ async function readDb(dbPath) {
   });
 
   const assetRows = await dbEachAsync(`
-    SELECT d.fullDocId, d.annotation, d.deleted
+    SELECT d.fullDocId, d.annotation, r.content, d.deleted
     FROM docs d
     JOIN revs r ON d.winningRevSequence = r.sequence
     WHERE d.type = 'asset'
@@ -64,17 +65,19 @@ async function readDb(dbPath) {
 
   const assetsById = new Map();
   assetRows.forEach((row) => {
-    const { fullDocId, annotation, deleted } = row;
+    const { fullDocId, annotation, content, deleted } = row;
     if (deleted) {
       return;
     }
-    const { imagePath, xmpLocation } = parseAnnotationBlob(annotation);
+    const { imagePath: path, xmpLocation: xmp } =
+      parseAnnotationBlob(annotation);
 
-    if (!imagePath) {
+    if (!path) {
       return;
     }
 
-    const asset = { imagePath, xmpLocation };
+    const { captureDate } = parseImageBlob(content);
+    const asset = { path, xmp, captureDate };
     assetsById.set(fullDocId, asset);
   });
 
@@ -114,12 +117,12 @@ async function readDb(dbPath) {
       if (album.assets.length > 0) {
         for (const asset of album.assets) {
           if (asset.xmpLocation) {
-            xmps[asset.imagePath] = asset.xmpLocation;
+            xmps[asset.path] = asset.xmpLocation;
           }
         }
         result.push({
           album: fullPath,
-          photos: album.assets.map((asset) => asset.imagePath),
+          photos: album.assets,
         });
       }
       if (album.children.length > 0) {
@@ -142,10 +145,9 @@ async function readDb(dbPath) {
   }
 
   for (const album of result) {
-    album.xmps = {};
     for (const photo of album.photos) {
       if (xmps[photo]) {
-        album.xmps[photo] = xmps[photo];
+        photo.xmp = xmps[photo];
       }
     }
   }
