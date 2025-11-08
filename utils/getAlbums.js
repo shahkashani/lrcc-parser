@@ -69,15 +69,14 @@ async function readDb(dbPath) {
     if (deleted) {
       return;
     }
-    const { imagePath: path, xmpLocation: xmp } =
-      parseAnnotationBlob(annotation);
+    const { imagePath: path, xmpLocation } = parseAnnotationBlob(annotation);
 
     if (!path) {
       return;
     }
 
     const { captureDate } = parseImageBlob(content);
-    const asset = { path, xmp, captureDate };
+    const asset = { path, xmpLocation, captureDate };
     assetsById.set(fullDocId, asset);
   });
 
@@ -122,7 +121,10 @@ async function readDb(dbPath) {
         }
         result.push({
           album: fullPath,
-          photos: album.assets,
+          photos: album.assets.map(({ path, captureDate }) => ({
+            path,
+            captureDate,
+          })),
         });
       }
       if (album.children.length > 0) {
@@ -146,8 +148,8 @@ async function readDb(dbPath) {
 
   for (const album of result) {
     for (const photo of album.photos) {
-      if (xmps[photo]) {
-        photo.xmp = xmps[photo];
+      if (xmps[photo.path]) {
+        photo.xmp = xmps[photo.path];
       }
     }
   }
