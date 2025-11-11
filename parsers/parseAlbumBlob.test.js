@@ -56,6 +56,13 @@ describe("parseAlbumBlob", () => {
       });
     });
 
+    it("reads dates", () => {
+      expect(parseFile("albums/album1.bin")).toMatchObject({
+        name: "Oldies",
+        userUpdated: "2025-11-04T09:50:15.285Z",
+      });
+    });
+
     it("reads shared author information", () => {
       const data = parseFile("albums/sharedAlbum.bin");
       expect(data).toMatchObject({

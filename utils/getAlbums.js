@@ -49,6 +49,7 @@ async function readDb(dbPath) {
       albumsById.set(fullDocId, {
         id: fullDocId,
         name: parsed.name,
+        userUpdated: parsed.userUpdated,
         parentId: parsed.parent?.id || null,
         children: [],
         assets: [],
@@ -75,7 +76,7 @@ async function readDb(dbPath) {
       return;
     }
 
-    const { captureDate } = parseImageBlob(content);
+    const { captureDate, tags } = parseImageBlob(content);
     const asset = { path, xmpLocation, captureDate };
     assetsById.set(fullDocId, asset);
   });
@@ -121,6 +122,7 @@ async function readDb(dbPath) {
         }
         result.push({
           album: fullPath,
+          albumUpdated: album.userUpdated,
           photos: album.assets.map(({ path, captureDate }) => ({
             path,
             captureDate,

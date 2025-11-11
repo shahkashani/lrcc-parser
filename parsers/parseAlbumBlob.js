@@ -36,6 +36,9 @@ const parseAlbumBlob = (inputString) => {
       case "author":
         record.author = cleanValue(parts[++i]);
         break;
+      case "userUpdated":
+        record.userUpdated = fixName(cleanValue(parts[++i]));
+        break;
       case "parent": {
         const next = parts[++i];
         if (!next && parts[i + 1] === "id") {
