@@ -77,7 +77,7 @@ async function readDb(dbPath) {
     }
 
     const { captureDate, tags } = parseImageBlob(content);
-    const asset = { path, xmpLocation, captureDate };
+    const asset = { path, xmpLocation, tags, captureDate };
     assetsById.set(fullDocId, asset);
   });
 
@@ -123,8 +123,9 @@ async function readDb(dbPath) {
         result.push({
           album: fullPath,
           albumUpdated: album.userUpdated,
-          photos: album.assets.map(({ path, captureDate }) => ({
+          photos: album.assets.map(({ path, captureDate, tags }) => ({
             path,
+            tags,
             captureDate,
           })),
         });
