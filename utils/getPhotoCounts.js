@@ -85,6 +85,7 @@ async function readDb(dbPath) {
       const fullPath = parentPath ? `${parentPath}/${pathpart}` : pathpart;
       if (album.assets.length > 0) {
         result.push({
+          id: album.id,
           album: fullPath,
           photos: album.assets.length,
         });

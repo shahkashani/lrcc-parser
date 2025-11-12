@@ -121,6 +121,7 @@ async function readDb(dbPath) {
           }
         }
         result.push({
+          id: album.id,
           album: fullPath,
           albumUpdated: album.userUpdated,
           photos: album.assets.map(({ path, captureDate, tags }) => ({
